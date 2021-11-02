@@ -7,12 +7,8 @@ app.use(cors());
 
 app.use("/public", express.static(`./public`));
 
-app.get("/api", (req, res) => {
-    res.setHeader(
-        "location",
-        "https://stackoverflow.com/questions/40840852/difference-between-res-setheader-and-res-header-in-node-js"
-    );
-
+app.get("/api/:id", (req, res) => {
+    res.setHeader("location", getUrl(req.params.id));
     res.status(301);
     res.send("redirect?");
 });
@@ -21,3 +17,6 @@ app.get("/", (req, res) => {
 });
 
 module.exports = app;
+function getUrl(id) {
+    return `https://www.${id}.com`;
+}
