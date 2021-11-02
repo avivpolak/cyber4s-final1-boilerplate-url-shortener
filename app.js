@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 app.post("/new", (req, res) => {
     let newUrl = saveUrl(req.headers.url);
 
-    res.send(`http://localhost:1024/api/${newUrl}`);
+    res.send(`http://localhost:1025/api/${newUrl}`);
 });
 
 module.exports = app;
@@ -34,19 +34,13 @@ function saveUrl(url) {
     let db = JSON.parse(
         fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
     );
-    db[getNewId()] = url;
+    let id = Object.entries(db).length + 1;
+    console.log(id);
+    db[id.toString(36)] = url;
     fs.writeFileSync(
         path.resolve(__dirname, "./db/dataBase.json"),
         JSON.stringify(db)
     );
-    return getNewId();
-}
-
-function getNewId() {
-    return 43;
-}
-function numToHash(id) {
     return id.toString(36);
 }
-
-console.log(numToHash(239542903878));
+saveUrl();
