@@ -18,14 +18,35 @@ app.get("/api/:id", (req, res) => {
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/views/index.html");
 });
-app.post("/api/shorturl/new", (req, res) => {
-    //res.send("url");
+app.post("/new", (req, res) => {
+    let newUrl = saveUrl(req.headers.url);
 
-    res.sendFile(__dirname + "/views/new.html");
+    res.send(`http://localhost:1024/api/${newUrl}`);
 });
 
 module.exports = app;
+
 function getUrl(id) {
     let db = fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"));
     return JSON.parse(db)[id];
 }
+function saveUrl(url) {
+    let db = JSON.parse(
+        fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
+    );
+    db[getNewId()] = url;
+    fs.writeFileSync(
+        path.resolve(__dirname, "./db/dataBase.json"),
+        JSON.stringify(db)
+    );
+    return getNewId();
+}
+
+function getNewId() {
+    return 43;
+}
+function numToHash(id) {
+    return id.toString(36);
+}
+
+console.log(numToHash(239542903878));
