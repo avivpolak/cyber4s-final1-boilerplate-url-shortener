@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const { json } = require("body-parser");
 const app = express();
+
 app.use(cors());
 app.use("/public", express.static(`./public`));
 
@@ -34,7 +35,7 @@ app.post("/new", (req, res) => {
     //set a new url sortener
 
     let newUrl = saveUrl(req.headers.url, req.headers.name);
-    res.send(`http://localhost:1028/api/${newUrl}`);
+    res.send(`http://localhost:1034/api/${newUrl}`);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,8 +47,16 @@ app.post("/new", (req, res) => {
 function getUrl(id) {
     //pull out an url with this id
 
-    let db = fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"));
-    return JSON.parse(db)[id][0];
+    let db = JSON.parse(
+        fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
+    );
+    console.log("rez");
+    db[id][2]++;
+    fs.writeFileSync(
+        path.resolve(__dirname, "./db/dataBase.json"),
+        JSON.stringify(db)
+    );
+    return db[id][0];
 }
 function saveUrl(url, name) {
     //saves up an url , with a uniqe 36-based id.
@@ -56,7 +65,7 @@ function saveUrl(url, name) {
         fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
     );
     let id = Object.entries(db).length + 1;
-    db[id.toString(36)] = [url, name]; //that how i save in smaller number, base 36
+    db[id.toString(36)] = [url, name, 0]; //that how i save in smaller number, base 36
     fs.writeFileSync(
         path.resolve(__dirname, "./db/dataBase.json"),
         JSON.stringify(db)
