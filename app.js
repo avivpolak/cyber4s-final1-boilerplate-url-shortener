@@ -35,7 +35,7 @@ app.post("/new", (req, res) => {
     //set a new url sortener
 
     let newUrl = saveUrl(req.headers.url, req.headers.name);
-    res.send(`http://localhost:1034/api/${newUrl}`);
+    res.send(`http://localhost:1040/api/${newUrl}`);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
