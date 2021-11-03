@@ -18,6 +18,7 @@
     "17": "https://stackoverflow.com/questions/29775797/fetch-post--data#:~:text=it%20is%20POSTing-,the%20JSON,-correctly%2C%20it%20just4",
     "18": "https://stackoverflow.com/questions/29775797/fetch-post--data#:~:text=it%20is%20POSTing-,the%20JSON,-correctly%2C%20it%20just4",
     "19": "https://stackoverflow.com/questions/29775797/fetch-post--data#:~:text=it%20is%20POSTing-,the%20JSON,-correctly%2C%20it%20just4",
+    "20": [null, null, 0],
     "a": "https://stackoverflow.com/questions/29775797/fetch-post--data#:~:text=it%20is%20POSTing-,the%20JSON,-correctly%2C%20it%20just4",
     "b": "https://stackoverflow.com/questions/29775797/fetch-post--data#:~:text=it%20is%20POSTing-,the%20JSON,-correctly%2C%20it%20just4",
     "c": "https://stackoverflow.com/questions/29775797/fetch-post--data#:~:text=it%20is%20POSTing-,the%20JSON,-correctly%2C%20it%20just4",
@@ -139,6 +140,11 @@
     "1y": [
         "https://www.hackerrank.com/test/3em4onnem94/questions/521e954e6ff11",
         "SHAI",
-        1
+        2
+    ],
+    "1z": [
+        "https://www.hackerrank.com/test/3em4onnem94/questions/521e954e6ff11",
+        "SHAI",
+        19
     ]
 }
