@@ -1,3 +1,4 @@
+"use strict";
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -5,42 +6,77 @@ const fs = require("fs");
 const path = require("path");
 const { json } = require("body-parser");
 const app = express();
-
 app.use(cors());
-
 app.use("/public", express.static(`./public`));
 
 app.get("/api/:id", (req, res) => {
+    //when using the short url
+
     res.setHeader("location", getUrl(req.params.id));
     res.status(301);
-    res.send("redirect");
+    res.send("redirect"); //add an loader page
 });
+
 app.get("/", (req, res) => {
+    //getting to the main page of my site
+
     res.sendFile(__dirname + "/views/index.html");
 });
-app.post("/new", (req, res) => {
-    let newUrl = saveUrl(req.headers.url);
+app.get("/users/:userName", (req, res) => {
+    //get statisticts about my url's
 
-    res.send(`http://localhost:1025/api/${newUrl}`);
+    let userName = req.params.userName;
+    let list = getListByName(userName);
+    res.send(JSON.stringify(list));
 });
 
-module.exports = app;
+app.post("/new", (req, res) => {
+    //set a new url sortener
+
+    let newUrl = saveUrl(req.headers.url, req.headers.name);
+    res.send(`http://localhost:1028/api/${newUrl}`);
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\FUNCTIONS//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function getUrl(id) {
+    //pull out an url with this id
+
     let db = fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"));
-    return JSON.parse(db)[id];
+    return JSON.parse(db)[id][0];
 }
-function saveUrl(url) {
+function saveUrl(url, name) {
+    //saves up an url , with a uniqe 36-based id.
+
     let db = JSON.parse(
         fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
     );
     let id = Object.entries(db).length + 1;
-    console.log(id);
-    db[id.toString(36)] = url;
+    db[id.toString(36)] = [url, name]; //that how i save in smaller number, base 36
     fs.writeFileSync(
         path.resolve(__dirname, "./db/dataBase.json"),
         JSON.stringify(db)
     );
     return id.toString(36);
 }
-saveUrl();
+
+function getListByName(name) {
+    //Get the url's of specific user.
+    //it returns an array, [[id,url],[id,url],[id,url],[id,url],[id,url]...]
+
+    let db = JSON.parse(
+        fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
+    );
+    let FileredDb = [];
+    for (let url in db) {
+        if (db[url][1] === name) {
+            FileredDb.push([url, db[url][0]]);
+        }
+    }
+    return FileredDb;
+}
+module.exports = app;
