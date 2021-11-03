@@ -13,7 +13,7 @@ app.use("/public", express.static(`./public`));
 app.get("/api/:id", (req, res) => {
     //when using the short url
     //res.sendFile(__dirname + "/views/waiting.html");
-
+    console.log(req.params.id);
     res.setHeader("location", getUrl(req.params.id));
     res.status(301);
     res.send("redirect");
@@ -36,7 +36,8 @@ app.post("/new", (req, res) => {
     //set a new url sortener
 
     let newUrl = saveUrl(req.headers.url, req.headers.name);
-    res.send(`http://localhost:1037/api/${newUrl}`);
+    console.log(req.headers.url, req.headers.name);
+    res.send(`http://localhost:1039/api/${newUrl}`);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +52,8 @@ function getUrl(id) {
     let db = JSON.parse(
         fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
     );
-    db[id][2]++;
+    console.log(db[id]);
+    //db[id][2]++;
     fs.writeFileSync(
         path.resolve(__dirname, "./db/dataBase.json"),
         JSON.stringify(db)
