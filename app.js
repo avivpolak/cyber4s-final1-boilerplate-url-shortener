@@ -95,7 +95,7 @@ function getListByName(name) {
 function valid(url) {
     if (validator.isURL(url) && url.length < 200) {
         if (url.startsWith("http://") || url.startsWith("https://")) {
-            //becouse validator dosnt check
+            //becouse validator dosn't check
             return true;
         }
     }
