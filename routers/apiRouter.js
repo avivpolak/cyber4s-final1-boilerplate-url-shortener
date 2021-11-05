@@ -22,6 +22,20 @@ apiRouter.get("/users/:userName", (req, res, next) => {
         next(err);
     }
 });
+apiRouter.post("/users/new", (req, res, next) => {
+    //set a new url sortener
+
+    try {
+        let newUrl = helpers.register(
+            req.headers.username,
+            req.headers.password
+        );
+        res.send(newUrl);
+    } catch (err) {
+        next(err);
+    }
+});
+
 apiRouter.post("/new", (req, res, next) => {
     //set a new url sortener
     try {

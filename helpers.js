@@ -3,20 +3,38 @@ const path = require("path");
 const { json } = require("body-parser");
 const validator = require("validator");
 const db = require("./db/db");
-
+const user = require("./db/user");
+function register(userName, password) {
+    try {
+        let newUser = new user(userName, password);
+        let usersDb = JSON.parse(
+            fs.readFileSync(path.resolve(__dirname, "./db/usersDb.json"))
+        );
+        console.log(usersDb);
+        usersDb[newUser.id] = newUser;
+        console.log(usersDb);
+        fs.writeFileSync(
+            path.resolve(__dirname, "./db/usersDb.json"),
+            JSON.stringify(usersDb)
+        );
+        return JSON.stringify(newUser);
+    } catch (err) {
+        throw err; //make it better error handaling
+    }
+}
 function getUrl(id) {
     //pull out an url with this id
     try {
-        let db = JSON.parse(
+        let dataBase = JSON.parse(
             fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
         );
-        db[id].timesVisited++;
+        dataBase[id].timesVisited++;
         fs.writeFileSync(
             path.resolve(__dirname, "./db/dataBase.json"),
-            JSON.stringify(db)
+            JSON.stringify(dataBase)
         );
 
-        return db[id].url;
+        return dataBase[id].url;
     } catch {
         let err = new Error("this url shourtner doesn't lead anywhere .(YET).");
         err.code = 404;
@@ -79,4 +97,4 @@ function valid(url) {
     throw err;
 }
 
-module.exports = { getUrl, saveUrl, getListByName, valid };
+module.exports = { register, getUrl, saveUrl, getListByName, valid };
