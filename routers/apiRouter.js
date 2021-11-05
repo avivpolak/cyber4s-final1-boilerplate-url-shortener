@@ -26,9 +26,8 @@ apiRouter.put("/users/:userName", (req, res, next) => {
 apiRouter.put("/login", (req, res, next) => {
     // when using the short url
     try {
-        let user = helpers.getUser(req.headers.username, req.headers.password);
+        let user = helpers.getUser(req.headers.username, req.headers.password); // for a user that is first time in the systrm it throw an error
         res.status(200);
-        console.log(JSON.stringify(user));
         res.send(JSON.stringify(user));
     } catch (err) {
         next(err);
@@ -52,7 +51,13 @@ apiRouter.post("/users/new", (req, res, next) => {
 apiRouter.post("/new", (req, res, next) => {
     //set a new url sortener
     try {
-        let newUrl = helpers.saveUrl(req.headers.url, req.headers.name);
+        let name = "";
+        if (req.headers.name === "undefined") {
+            name = "53c5ff7f-16b1-4216-b47c-fe8c1978e9f";
+        } else {
+            name = req.headers.name;
+        }
+        let newUrl = helpers.saveUrl(req.headers.url, name);
         res.send(`http://localhost:1042/api/${newUrl}`);
     } catch (err) {
         next(err);

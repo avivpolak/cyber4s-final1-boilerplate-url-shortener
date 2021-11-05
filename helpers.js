@@ -46,7 +46,7 @@ function getUser(username, password) {
     );
     if (usersDb.hasOwnProperty(username)) {
         if (usersDb[username] === password) {
-            return username;
+            return { name: username, password: password };
         }
         let err = new Error(
             "this is not you password... try this tips: http://localhost:1042/api/q"
