@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { json } = require("body-parser");
 const validator = require("validator");
+const db = require("./db/db");
 
 function getUrl(id) {
     //pull out an url with this id
@@ -9,13 +10,13 @@ function getUrl(id) {
         let db = JSON.parse(
             fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
         );
-        db[id][2]++; //update counter
+        db[id].timesVisited++;
         fs.writeFileSync(
             path.resolve(__dirname, "./db/dataBase.json"),
             JSON.stringify(db)
         );
 
-        return db[id][0];
+        return db[id].url;
     } catch {
         let err = new Error("this url shourtner doesn't lead anywhere .(YET).");
         err.code = 404;
@@ -25,25 +26,25 @@ function getUrl(id) {
 function saveUrl(url, name) {
     //saves up an url , with a uniqe 36-based id.
     try {
-        let db = JSON.parse(
+        let dataBase = JSON.parse(
             fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
         );
         valid(url);
         //add valid name here
-        let id = Object.entries(db).length + 1;
-        db[id.toString(36)] = [url, name, 0]; //that how i save in smaller number, base 36
+        let id = Object.entries(dataBase).length + 1;
+        let newUrlObj = new db(url, name);
+        dataBase[id.toString(36)] = newUrlObj; //that how i save in smaller number, base 36
         fs.writeFileSync(
             path.resolve(__dirname, "./db/dataBase.json"),
-            JSON.stringify(db)
+            JSON.stringify(dataBase)
         );
         return id.toString(36);
     } catch (err) {
-        console.log(err);
         throw err;
     }
 }
 
-function getListByName(name) {
+function getListByName(id) {
     //Get the url's of specific user.
     //it returns an array, [[id,url],[id,url],[id,url],[id,url],[id,url]...]
 
@@ -52,8 +53,8 @@ function getListByName(name) {
     );
     let FileredDb = [];
     for (let url in db) {
-        if (db[url][1] === name) {
-            FileredDb.push([url, db[url][0]]);
+        if (db[url].user === id) {
+            FileredDb.push([url, db[url].url]);
         }
     }
     return FileredDb;
