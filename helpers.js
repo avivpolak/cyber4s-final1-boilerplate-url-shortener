@@ -6,22 +6,59 @@ const db = require("./db/db");
 const user = require("./db/user");
 function register(userName, password) {
     try {
-        let newUser = new user(userName, password);
         let usersDb = JSON.parse(
             fs.readFileSync(path.resolve(__dirname, "./db/usersDb.json"))
         );
-        console.log(usersDb);
-        usersDb[newUser.id] = newUser;
-        console.log(usersDb);
+        validUser(userName, password);
+        usersDb[userName] = password;
         fs.writeFileSync(
             path.resolve(__dirname, "./db/usersDb.json"),
             JSON.stringify(usersDb)
         );
-        return JSON.stringify(newUser);
+        return JSON.stringify({ userName: userName, password: password });
     } catch (err) {
         throw err; //make it better error handaling
     }
 }
+function validUser(userName, password) {
+    let usersDb = JSON.parse(
+        fs.readFileSync(path.resolve(__dirname, "./db/usersDb.json"))
+    );
+    if (!usersDb.hasOwnProperty(userName)) {
+        if (validator.isStrongPassword(password)) {
+            return;
+        }
+        let err = new Error(
+            "your password is week: you need at least 1 lower cased letter and upper casaed, min length is 8 chars, one symbol and one number."
+        );
+        err.code = 400;
+        throw err;
+    }
+    let err = new Error(
+        "this name is all ready exsist :( , try something else...."
+    );
+    err.code = 400;
+    throw err;
+}
+function getUser(username, password) {
+    let usersDb = JSON.parse(
+        fs.readFileSync(path.resolve(__dirname, "./db/usersDb.json"))
+    );
+    if (usersDb.hasOwnProperty(username)) {
+        if (usersDb[username] === password) {
+            return username;
+        }
+        let err = new Error(
+            "this is not you password... try this tips: http://localhost:1042/api/q"
+        );
+        err.code = 400;
+        throw err;
+    }
+    let err = new Error("sorry , but we have no such username in our system");
+    err.code = 404;
+    throw err;
+}
+
 function getUrl(id) {
     //pull out an url with this id
     try {
@@ -72,7 +109,11 @@ function getListByName(id) {
     let FileredDb = [];
     for (let url in db) {
         if (db[url].user === id) {
-            FileredDb.push([url, db[url].url]);
+            FileredDb.push([
+                `http://localhost:1042/api/${url}`,
+                db[url].url,
+                db[url].timesVisited,
+            ]);
         }
     }
     return FileredDb;
@@ -97,4 +138,4 @@ function valid(url) {
     throw err;
 }
 
-module.exports = { register, getUrl, saveUrl, getListByName, valid };
+module.exports = { getUser, register, getUrl, saveUrl, getListByName, valid };
