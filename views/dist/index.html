@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <script src="./index.js" defer="defer"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Source+Code+Pro:wght@300&display=swap");
+            body {
+                font-family: "Source Code Pro", monospace;
+            }
+            #root {
+                background-color: rgba(69, 247, 232, 0.302);
+                margin: 10%;
+                padding: 10%;
+                box-shadow: black 100px 100px 1000px;
+            }
+            #main {
+                padding: 10%;
+                background-color: rgba(108, 146, 37, 0.227);
+                border-radius: 5%;
+                text-align: center;
+            }
+            h6 {
+                font-size: 10px;
+                font-weight: 100;
+            }
+            h5 {
+                font-size: 30px;
+                font-weight: 100;
+            }
+            h4 {
+                font-size: 60px;
+                font-weight: 100;
+            }
+            h3 {
+                font-size: 120px;
+                font-weight: 100;
+            }
+            h2 {
+                font-size: 250px;
+                font-weight: 100;
+            }
+            h1 {
+                margin: -16%;
+                font-size: 500px;
+            }
+            #header {
+                margin: 10%;
+                text-align: center;
+            }
+            .login,
+            .register,
+            #welcome {
+                padding: 10% 40%;
+
+                background-color: rgb(44, 90, 150);
+            }
+
+            #logout {
+                width: 20%;
+            }
+            .btn {
+                margin-top: 2%;
+                width: 100%;
+            }
+            td {
+                width: 30%;
+            }
+            .hide {
+                display: none;
+            }
+        </style>
+        <title>Mini Url</title>
+        <link rel="icon" href="favicon.png" />
+        <script
+            defer="defer"
+            src="./js/runtime.731d39beea0b628908d6.bundle.js"
+        ></script>
+        <script
+            defer="defer"
+            src="./js/main.f19271cf2320572ae750.bundle.js"
+        ></script>
+    </head>
+    <body>
+        <div>
+            <h2 id="greetins"></h2>
+            <input
+                class="btn btn-secondary hide"
+                type="button"
+                value="logout"
+                id="logout"
+            />
+        </div>
+        <div class="login" id="loginSection">
+            <div class="form-floating mb-3">
+                <input
+                    class="form-control"
+                    name="name"
+                    id="name"
+                    placeholder="your name here"
+                />
+                <label for="name">name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input
+                    class="form-control"
+                    type="password"
+                    id="password"
+                    placeholder="password"
+                />
+                <label for="password">password</label>
+                <input
+                    type="button"
+                    class="btn btn-success"
+                    value="login"
+                    id="login"
+                />
+                <div id="loginStatus"></div>
+            </div>
+        </div>
+        <div id="root">
+            <div id="header">
+                <h1>Make</h1>
+                <h2>Your</h2>
+                <h3>Url</h3>
+                <h4>Into</h4>
+                <h5>Tiny</h5>
+                <h6>Url</h6>
+            </div>
+            <div id="main">
+                <div class="form-floating mb-3">
+                    <input
+                        class="form-control"
+                        name="url"
+                        id="url"
+                        placeholder="url"
+                    />
+                    <label for="url">https://www.example.com/login</label>
+                </div>
+                <div class="primaryButton">
+                    <input
+                        class="btn btn-secondary"
+                        type="button"
+                        value="get url"
+                        id="submit"
+                    />
+                    <input
+                        class="btn btn-secondary"
+                        type="button"
+                        value="copy to clipboard"
+                        id="copy"
+                    />
+                    <input
+                        class="btn btn-secondary"
+                        type="button"
+                        value="clear Input"
+                        id="clear"
+                    />
+                </div>
+                <div id="error"></div>
+            </div>
+        </div>
+        <footer id="footer" class="hide">
+            <h1>MY AREA</h1>
+            <div id="myArea"></div>
+        </footer>
+        <div id="registerSection">
+            <h5>
+                Don't have a user yet? register now for FREE and follow your
+                links and statistics!
+            </h5>
+            <div class="register">
+                <div class="form-floating mb-3">
+                    <input
+                        id="userName"
+                        class="form-control"
+                        placeholder="name"
+                    />
+                    <label for="userName">username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                        type="password"
+                        id="userPassword"
+                        class="form-control"
+                        placeholder="password"
+                    />
+                    <label for="userPassword">password</label>
+                </div>
+                <input
+                    type="button"
+                    class="btn btn-success"
+                    value="register"
+                    id="register"
+                />
+                <div id="registerStatus"></div>
+            </div>
+        </div>
+        <script>
+            (self.webpackChunkwebpack_boilerplate =
+                self.webpackChunkwebpack_boilerplate || []).push([
+                [179],
+                {
+                    579: () => {
+                        function e(e, n) {
+                            var o =
+                                ("undefined" != typeof Symbol &&
+                                    e[Symbol.iterator]) ||
+                                e["@@iterator"];
+                            if (!o) {
+                                if (
+                                    Array.isArray(e) ||
+                                    (o = (function (e, n) {
+                                        if (e) {
+                                            if ("string" == typeof e)
+                                                return t(e, n);
+                                            var o = Object.prototype.toString
+                                                .call(e)
+                                                .slice(8, -1);
+                                            return (
+                                                "Object" === o &&
+                                                    e.constructor &&
+                                                    (o = e.constructor.name),
+                                                "Map" === o || "Set" === o
+                                                    ? Array.from(e)
+                                                    : "Arguments" === o ||
+                                                      /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(
+                                                          o
+                                                      )
+                                                    ? t(e, n)
+                                                    : void 0
+                                            );
+                                        }
+                                    })(e)) ||
+                                    (n && e && "number" == typeof e.length)
+                                ) {
+                                    o && (e = o);
+                                    var a = 0,
+                                        r = function () {};
+                                    return {
+                                        s: r,
+                                        n: function () {
+                                            return a >= e.length
+                                                ? { done: !0 }
+                                                : { done: !1, value: e[a++] };
+                                        },
+                                        e: function (e) {
+                                            throw e;
+                                        },
+                                        f: r,
+                                    };
+                                }
+                                throw new TypeError(
+                                    "Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
+                                );
+                            }
+                            var l,
+                                c = !0,
+                                d = !1;
+                            return {
+                                s: function () {
+                                    o = o.call(e);
+                                },
+                                n: function () {
+                                    var e = o.next();
+                                    return (c = e.done), e;
+                                },
+                                e: function (e) {
+                                    (d = !0), (l = e);
+                                },
+                                f: function () {
+                                    try {
+                                        c || null == o.return || o.return();
+                                    } finally {
+                                        if (d) throw l;
+                                    }
+                                },
+                            };
+                        }
+                        function t(e, t) {
+                            (null == t || t > e.length) && (t = e.length);
+                            for (var n = 0, o = new Array(t); n < t; n++)
+                                o[n] = e[n];
+                            return o;
+                        }
+                        document
+                            .getElementById("submit")
+                            .addEventListener("click", function () {
+                                var e;
+                                (document.getElementById("error").innerText =
+                                    ""),
+                                    document.getElementById("url").value,
+                                    (e = {
+                                        url: document.getElementById("url")
+                                            .value,
+                                        name: localStorage.name,
+                                    }),
+                                    axios
+                                        .post(
+                                            "http://localhost:".concat(
+                                                n,
+                                                "/new"
+                                            ),
+                                            "data",
+                                            { headers: e }
+                                        )
+                                        .then(function (e) {
+                                            document.getElementById(
+                                                "url"
+                                            ).value = e.data;
+                                        })
+                                        .catch(function (e) {
+                                            e.response &&
+                                                (document.getElementById(
+                                                    "error"
+                                                ).innerText = e.response.data);
+                                        });
+                            }),
+                            document
+                                .getElementById("copy")
+                                .addEventListener("click", function () {
+                                    var e =
+                                        document.getElementById("url").value;
+                                    navigator.clipboard.writeText(e).then(
+                                        function () {
+                                            console.log(
+                                                "Async: Copying to clipboard was successful!"
+                                            );
+                                        },
+                                        function (e) {
+                                            console.error(
+                                                "Async: Could not copy text: ",
+                                                e
+                                            );
+                                        }
+                                    );
+                                }),
+                            document
+                                .getElementById("clear")
+                                .addEventListener("click", function () {
+                                    document.getElementById("url").value = "";
+                                }),
+                            document
+                                .getElementById("register")
+                                .addEventListener("click", function () {
+                                    document.getElementById(
+                                        "registerStatus"
+                                    ).innerText = "";
+                                    var e = {
+                                        username:
+                                            document.getElementById("userName")
+                                                .value,
+                                        password:
+                                            document.getElementById(
+                                                "userPassword"
+                                            ).value,
+                                    };
+                                    axios
+                                        .post(
+                                            "http://localhost:".concat(
+                                                n,
+                                                "/users/new"
+                                            ),
+                                            "data",
+                                            { headers: e }
+                                        )
+                                        .then(function (e) {
+                                            var t = "welome "
+                                                .concat(
+                                                    e.data.userName,
+                                                    ', your password is  "'
+                                                )
+                                                .concat(e.data.password, '"');
+                                            document.getElementById(
+                                                "registerStatus"
+                                            ).innerText = t;
+                                        })
+                                        .catch(function (e) {
+                                            e.response &&
+                                                (document.getElementById(
+                                                    "registerStatus"
+                                                ).innerText = e.response.data);
+                                        });
+                                }),
+                            document
+                                .getElementById("login")
+                                .addEventListener("click", function () {
+                                    document.getElementById(
+                                        "loginStatus"
+                                    ).innerText = "";
+                                    var e = {
+                                        username:
+                                            document.getElementById("name")
+                                                .value,
+                                        password:
+                                            document.getElementById("password")
+                                                .value,
+                                    };
+                                    axios
+                                        .put(
+                                            "http://localhost:".concat(
+                                                n,
+                                                "/login"
+                                            ),
+                                            "data",
+                                            { headers: e }
+                                        )
+                                        .then(function (e) {
+                                            (localStorage.name = e.data.name),
+                                                (localStorage.password =
+                                                    e.data.password),
+                                                a(
+                                                    e.data.name,
+                                                    document.getElementById(
+                                                        "password"
+                                                    ).value
+                                                ),
+                                                o(localStorage.name);
+                                        })
+                                        .catch(function (e) {
+                                            e.response &&
+                                                (document.getElementById(
+                                                    "loginStatus"
+                                                ).innerText = e.response.data);
+                                        });
+                                }),
+                            document
+                                .getElementById("logout")
+                                .addEventListener("click", function () {
+                                    localStorage.clear(), location.reload();
+                                });
+                        var n = 1042;
+                        function o(e) {
+                            (document.getElementById("greetins").innerText =
+                                "welcome ".concat(e)),
+                                document
+                                    .getElementById("loginSection")
+                                    .classList.toggle("hide"),
+                                document
+                                    .getElementById("registerSection")
+                                    .classList.toggle("hide"),
+                                document
+                                    .getElementById("footer")
+                                    .classList.toggle("hide"),
+                                document
+                                    .getElementById("logout")
+                                    .classList.toggle("hide"),
+                                a(localStorage.name, localStorage.password);
+                        }
+                        function a(t, o) {
+                            document.getElementById("myArea").innerHTML = "";
+                            var a = { username: t, password: o };
+                            axios
+                                .put(
+                                    "http://localhost:"
+                                        .concat(n, "/users/")
+                                        .concat(t),
+                                    "data",
+                                    { headers: a }
+                                )
+                                .then(function (t) {
+                                    document.getElementById("myArea").append(
+                                        (function (t) {
+                                            var n = r("table"),
+                                                o = r("td", ["shoutened url"]),
+                                                a = r("td", ["long url"]),
+                                                l = r("td", ["Times Visited"]),
+                                                c = r("thead", [o, a, l]);
+                                            n.append(c);
+                                            var d,
+                                                u = e(t);
+                                            try {
+                                                for (
+                                                    u.s();
+                                                    !(d = u.n()).done;
+
+                                                ) {
+                                                    var s,
+                                                        i = d.value,
+                                                        m = r("tr"),
+                                                        g = e(i);
+                                                    try {
+                                                        for (
+                                                            g.s();
+                                                            !(s = g.n()).done;
+
+                                                        ) {
+                                                            var y = r("td", [
+                                                                s.value,
+                                                            ]);
+                                                            m.append(y);
+                                                        }
+                                                    } catch (e) {
+                                                        g.e(e);
+                                                    } finally {
+                                                        g.f();
+                                                    }
+                                                    n.append(m);
+                                                }
+                                            } catch (e) {
+                                                u.e(e);
+                                            } finally {
+                                                u.f();
+                                            }
+                                            return n;
+                                        })(t.data)
+                                    );
+                                });
+                        }
+                        function r(t) {
+                            var n,
+                                o =
+                                    arguments.length > 1 &&
+                                    void 0 !== arguments[1]
+                                        ? arguments[1]
+                                        : [],
+                                a =
+                                    arguments.length > 2 &&
+                                    void 0 !== arguments[2]
+                                        ? arguments[2]
+                                        : [],
+                                r =
+                                    arguments.length > 3
+                                        ? arguments[3]
+                                        : void 0,
+                                l =
+                                    arguments.length > 4
+                                        ? arguments[4]
+                                        : void 0,
+                                c = document.createElement(t),
+                                d = e(o);
+                            try {
+                                for (d.s(); !(n = d.n()).done; ) {
+                                    var u = n.value;
+                                    ("string" != typeof u &&
+                                        "number" != typeof u) ||
+                                        (u = document.createTextNode(u)),
+                                        c.appendChild(u);
+                                }
+                            } catch (e) {
+                                d.e(e);
+                            } finally {
+                                d.f();
+                            }
+                            var s,
+                                i = e(a);
+                            try {
+                                for (i.s(); !(s = i.n()).done; ) {
+                                    var m = s.value;
+                                    c.classList.add(m);
+                                }
+                            } catch (e) {
+                                i.e(e);
+                            } finally {
+                                i.f();
+                            }
+                            for (var g in r) c.setAttribute(g, r[g]);
+                            for (var y in l) c.addEventListener(y, l[y]);
+                            return c;
+                        }
+                        localStorage.name && o(localStorage.name);
+                    },
+                },
+                (e) => {
+                    e((e.s = 579));
+                },
+            ]);
+            (() => {
+                "use strict";
+                var r,
+                    e = {},
+                    o = {};
+                function t(r) {
+                    var a = o[r];
+                    if (void 0 !== a) return a.exports;
+                    var n = (o[r] = { exports: {} });
+                    return e[r](n, n.exports, t), n.exports;
+                }
+                (t.m = e),
+                    (r = []),
+                    (t.O = (e, o, a, n) => {
+                        if (!o) {
+                            var l = 1 / 0;
+                            for (f = 0; f < r.length; f++) {
+                                for (
+                                    var [o, a, n] = r[f], i = !0, p = 0;
+                                    p < o.length;
+                                    p++
+                                )
+                                    (!1 & n || l >= n) &&
+                                    Object.keys(t.O).every((r) => t.O[r](o[p]))
+                                        ? o.splice(p--, 1)
+                                        : ((i = !1), n < l && (l = n));
+                                if (i) {
+                                    r.splice(f--, 1);
+                                    var s = a();
+                                    void 0 !== s && (e = s);
+                                }
+                            }
+                            return e;
+                        }
+                        n = n || 0;
+                        for (var f = r.length; f > 0 && r[f - 1][2] > n; f--)
+                            r[f] = r[f - 1];
+                        r[f] = [o, a, n];
+                    }),
+                    (t.o = (r, e) =>
+                        Object.prototype.hasOwnProperty.call(r, e)),
+                    (() => {
+                        var r = { 666: 0 };
+                        t.O.j = (e) => 0 === r[e];
+                        var e = (e, o) => {
+                                var a,
+                                    n,
+                                    [l, i, p] = o,
+                                    s = 0;
+                                if (l.some((e) => 0 !== r[e])) {
+                                    for (a in i) t.o(i, a) && (t.m[a] = i[a]);
+                                    if (p) var f = p(t);
+                                }
+                                for (e && e(o); s < l.length; s++)
+                                    (n = l[s]),
+                                        t.o(r, n) && r[n] && r[n][0](),
+                                        (r[l[s]] = 0);
+                                return t.O(f);
+                            },
+                            o = (self.webpackChunkwebpack_boilerplate =
+                                self.webpackChunkwebpack_boilerplate || []);
+                        o.forEach(e.bind(null, 0)),
+                            (o.push = e.bind(null, o.push.bind(o)));
+                    })();
+            })();
+        </script>
+    </body>
+</html>
