@@ -1,6 +1,7 @@
 const helpers = require("../helpers");
 const express = require("express");
 const apiRouter = express.Router();
+const path = require("path");
 
 apiRouter.get("/api/:id", (req, res, next) => {
     //when using the short url
@@ -8,6 +9,14 @@ apiRouter.get("/api/:id", (req, res, next) => {
         res.setHeader("location", helpers.getUrl(req.params.id));
         res.status(301);
         res.send("redirect"); //add an loader page
+    } catch (err) {
+        next(err);
+    }
+});
+apiRouter.get("/", (req, res, next) => {
+    //when using the short url
+    try {
+        res.sendFile(path.join(__dirname, "../views/dist/index.html")); //add an loader page
     } catch (err) {
         next(err);
     }
