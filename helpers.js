@@ -137,5 +137,49 @@ function valid(url) {
     err.code = 400;
     throw err;
 }
+function saveSpesiphicUrl(url, name, str) {
+    //saves up an url , with a spesiphic name.
+    try {
+        let dataBase = JSON.parse(
+            fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
+        );
+        valid(url);
+        sreachIfExsist(str);
+        let newUrlObj = new db(url, name);
+        dataBase[str] = newUrlObj;
+        fs.writeFileSync(
+            path.resolve(__dirname, "./db/dataBase.json"),
+            JSON.stringify(dataBase)
+        );
+        return str;
+    } catch (err) {
+        throw err;
+    }
+}
 
-module.exports = { getUser, register, getUrl, saveUrl, getListByName, valid };
+function sreachIfExsist(str) {
+    try {
+        let dataBase = JSON.parse(
+            fs.readFileSync(path.resolve(__dirname, "./db/dataBase.json"))
+        );
+        for (let url of Object.entries(dataBase)) {
+            if (url[0] === str) {
+                let err = new Error("This url is taken aleady");
+                err.code = 400;
+                throw err;
+            }
+        }
+    } catch (err) {
+        throw err;
+    }
+}
+
+module.exports = {
+    getUser,
+    register,
+    getUrl,
+    saveUrl,
+    saveSpesiphicUrl,
+    getListByName,
+    valid,
+};

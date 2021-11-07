@@ -72,5 +72,24 @@ apiRouter.post("/new", (req, res, next) => {
         next(err);
     }
 });
+apiRouter.post("/new/speciphic", (req, res, next) => {
+    //set a new url sortener
+    try {
+        let name = "";
+        if (req.headers.name === "undefined") {
+            name = "53c5ff7f-16b1-4216-b47c-fe8c1978e9f";
+        } else {
+            name = req.headers.name;
+        }
 
+        let newUrl = helpers.saveSpesiphicUrl(
+            req.headers.url,
+            name,
+            req.headers.str
+        );
+        res.send(`http://localhost:1042/api/${newUrl}`);
+    } catch (err) {
+        next(err);
+    }
+});
 module.exports = apiRouter;
