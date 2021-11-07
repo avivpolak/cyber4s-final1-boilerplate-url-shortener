@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <script src="./index.js" defer="defer"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="./index.js" defer></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -14,6 +14,7 @@
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&family=Source+Code+Pro:wght@300&display=swap");
             body {
@@ -25,55 +26,35 @@
                 padding: 10%;
                 box-shadow: black 100px 100px 1000px;
             }
+            #uppersection {
+                background-color: rgb(44, 90, 150);
+                display: flex;
+                height: 60px;
+            }
+            .login,
+            .register,
+            #welcome {
+                display: flex;
+                gap: 10px;
+                float: right;
+            }
+
             #main {
                 padding: 10%;
                 background-color: rgba(108, 146, 37, 0.227);
                 border-radius: 5%;
                 text-align: center;
             }
-            h6 {
-                font-size: 10px;
-                font-weight: 100;
-            }
-            h5 {
-                font-size: 30px;
-                font-weight: 100;
-            }
-            h4 {
-                font-size: 60px;
-                font-weight: 100;
-            }
-            h3 {
-                font-size: 120px;
-                font-weight: 100;
-            }
-            h2 {
-                font-size: 250px;
-                font-weight: 100;
-            }
-            h1 {
-                margin: -16%;
-                font-size: 500px;
-            }
+
             #header {
                 margin: 10%;
                 text-align: center;
-            }
-            .login,
-            .register,
-            #welcome {
-                padding: 10% 40%;
-
-                background-color: rgb(44, 90, 150);
             }
 
             #logout {
                 width: 20%;
             }
-            .btn {
-                margin-top: 2%;
-                width: 100%;
-            }
+
             td {
                 width: 30%;
             }
@@ -82,44 +63,41 @@
             }
         </style>
         <title>Mini Url</title>
-        <link rel="icon" href="favicon.png" />
-        <script
-            defer="defer"
-            src="./js/runtime.731d39beea0b628908d6.bundle.js"
-        ></script>
-        <script
-            defer="defer"
-            src="./js/main.f19271cf2320572ae750.bundle.js"
-        ></script>
     </head>
     <body>
-        <div>
-            <h2 id="greetins"></h2>
-            <input
-                class="btn btn-secondary hide"
-                type="button"
-                value="logout"
-                id="logout"
-            />
-        </div>
-        <div class="login" id="loginSection">
-            <div class="form-floating mb-3">
+        <div id="uppersection">
+            <img id="logo" src="./images/logoMiniUrl.png" alt="logo" />
+
+            <div>
+                <h2 id="greetins"></h2>
                 <input
-                    class="form-control"
-                    name="name"
-                    id="name"
-                    placeholder="your name here"
+                    class="btn btn-secondary hide"
+                    type="button"
+                    value="logout"
+                    id="logout"
                 />
-                <label for="name">name</label>
             </div>
-            <div class="form-floating mb-3">
-                <input
-                    class="form-control"
-                    type="password"
-                    id="password"
-                    placeholder="password"
-                />
-                <label for="password">password</label>
+
+            <div class="login" id="loginSection">
+                <div class="form-floating mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="name"
+                        placeholder="your name here"
+                    />
+                    <label for="name">name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                        class="form-control"
+                        type="password"
+                        id="password"
+                        placeholder="password"
+                    />
+                    <label for="password">password</label>
+                </div>
                 <input
                     type="button"
                     class="btn btn-success"
@@ -130,23 +108,28 @@
             </div>
         </div>
         <div id="root">
-            <div id="header">
-                <h1>Make</h1>
-                <h2>Your</h2>
-                <h3>Url</h3>
-                <h4>Into</h4>
-                <h5>Tiny</h5>
-                <h6>Url</h6>
-            </div>
             <div id="main">
                 <div class="form-floating mb-3">
                     <input
+                        type="text"
                         class="form-control"
                         name="url"
                         id="url"
                         placeholder="url"
                     />
                     <label for="url">https://www.example.com/login</label>
+                </div>
+                <div id="forMembers" class="hide">
+                    <div class="form-floating mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="spesiphic"
+                            id="spesiphic"
+                            placeholder="MyPersonalUrl"
+                        />
+                        <label for="spesiphic">Castum Url</label>
+                    </div>
                 </div>
                 <div class="primaryButton">
                     <input
@@ -178,11 +161,13 @@
         <div id="registerSection">
             <h5>
                 Don't have a user yet? register now for FREE and follow your
-                links and statistics!
+                links and statistics,and castum url
             </h5>
+
             <div class="register">
                 <div class="form-floating mb-3">
                     <input
+                        type="text"
                         id="userName"
                         class="form-control"
                         placeholder="name"
@@ -208,6 +193,71 @@
             </div>
         </div>
         <script>
+            (() => {
+                "use strict";
+                var r,
+                    e = {},
+                    o = {};
+                function t(r) {
+                    var a = o[r];
+                    if (void 0 !== a) return a.exports;
+                    var n = (o[r] = { exports: {} });
+                    return e[r](n, n.exports, t), n.exports;
+                }
+                (t.m = e),
+                    (r = []),
+                    (t.O = (e, o, a, n) => {
+                        if (!o) {
+                            var l = 1 / 0;
+                            for (f = 0; f < r.length; f++) {
+                                for (
+                                    var [o, a, n] = r[f], i = !0, p = 0;
+                                    p < o.length;
+                                    p++
+                                )
+                                    (!1 & n || l >= n) &&
+                                    Object.keys(t.O).every((r) => t.O[r](o[p]))
+                                        ? o.splice(p--, 1)
+                                        : ((i = !1), n < l && (l = n));
+                                if (i) {
+                                    r.splice(f--, 1);
+                                    var s = a();
+                                    void 0 !== s && (e = s);
+                                }
+                            }
+                            return e;
+                        }
+                        n = n || 0;
+                        for (var f = r.length; f > 0 && r[f - 1][2] > n; f--)
+                            r[f] = r[f - 1];
+                        r[f] = [o, a, n];
+                    }),
+                    (t.o = (r, e) =>
+                        Object.prototype.hasOwnProperty.call(r, e)),
+                    (() => {
+                        var r = { 666: 0 };
+                        t.O.j = (e) => 0 === r[e];
+                        var e = (e, o) => {
+                                var a,
+                                    n,
+                                    [l, i, p] = o,
+                                    s = 0;
+                                if (l.some((e) => 0 !== r[e])) {
+                                    for (a in i) t.o(i, a) && (t.m[a] = i[a]);
+                                    if (p) var f = p(t);
+                                }
+                                for (e && e(o); s < l.length; s++)
+                                    (n = l[s]),
+                                        t.o(r, n) && r[n] && r[n][0](),
+                                        (r[l[s]] = 0);
+                                return t.O(f);
+                            },
+                            o = (self.webpackChunkwebpack_boilerplate =
+                                self.webpackChunkwebpack_boilerplate || []);
+                        o.forEach(e.bind(null, 0)),
+                            (o.push = e.bind(null, o.push.bind(o)));
+                    })();
+            })();
             (self.webpackChunkwebpack_boilerplate =
                 self.webpackChunkwebpack_boilerplate || []).push([
                 [179],
@@ -297,7 +347,7 @@
                         document
                             .getElementById("submit")
                             .addEventListener("click", function () {
-                                var e;
+                                var e, t;
                                 (document.getElementById("error").innerText =
                                     ""),
                                     document.getElementById("url").value,
@@ -306,15 +356,19 @@
                                             .value,
                                         name: localStorage.name,
                                     }),
+                                    (t = "http://localhost:".concat(n, "/new")),
+                                    document.getElementById("spesiphic")
+                                        .value &&
+                                        ((e.str =
+                                            document.getElementById(
+                                                "spesiphic"
+                                            ).value),
+                                        (t = "http://localhost:".concat(
+                                            n,
+                                            "/new/speciphic"
+                                        ))),
                                     axios
-                                        .post(
-                                            "http://localhost:".concat(
-                                                n,
-                                                "/new"
-                                            ),
-                                            "data",
-                                            { headers: e }
-                                        )
+                                        .post(t, "data", { headers: e })
                                         .then(function (e) {
                                             document.getElementById(
                                                 "url"
@@ -456,6 +510,9 @@
                                 document
                                     .getElementById("logout")
                                     .classList.toggle("hide"),
+                                document
+                                    .getElementById("forMembers")
+                                    .classList.toggle("hide"),
                                 a(localStorage.name, localStorage.password);
                         }
                         function a(t, o) {
@@ -479,25 +536,25 @@
                                                 c = r("thead", [o, a, l]);
                                             n.append(c);
                                             var d,
-                                                u = e(t);
+                                                s = e(t);
                                             try {
                                                 for (
-                                                    u.s();
-                                                    !(d = u.n()).done;
+                                                    s.s();
+                                                    !(d = s.n()).done;
 
                                                 ) {
-                                                    var s,
+                                                    var u,
                                                         i = d.value,
                                                         m = r("tr"),
                                                         g = e(i);
                                                     try {
                                                         for (
                                                             g.s();
-                                                            !(s = g.n()).done;
+                                                            !(u = g.n()).done;
 
                                                         ) {
                                                             var y = r("td", [
-                                                                s.value,
+                                                                u.value,
                                                             ]);
                                                             m.append(y);
                                                         }
@@ -509,9 +566,9 @@
                                                     n.append(m);
                                                 }
                                             } catch (e) {
-                                                u.e(e);
+                                                s.e(e);
                                             } finally {
-                                                u.f();
+                                                s.f();
                                             }
                                             return n;
                                         })(t.data)
@@ -542,22 +599,22 @@
                                 d = e(o);
                             try {
                                 for (d.s(); !(n = d.n()).done; ) {
-                                    var u = n.value;
-                                    ("string" != typeof u &&
-                                        "number" != typeof u) ||
-                                        (u = document.createTextNode(u)),
-                                        c.appendChild(u);
+                                    var s = n.value;
+                                    ("string" != typeof s &&
+                                        "number" != typeof s) ||
+                                        (s = document.createTextNode(s)),
+                                        c.appendChild(s);
                                 }
                             } catch (e) {
                                 d.e(e);
                             } finally {
                                 d.f();
                             }
-                            var s,
+                            var u,
                                 i = e(a);
                             try {
-                                for (i.s(); !(s = i.n()).done; ) {
-                                    var m = s.value;
+                                for (i.s(); !(u = i.n()).done; ) {
+                                    var m = u.value;
                                     c.classList.add(m);
                                 }
                             } catch (e) {
@@ -576,71 +633,6 @@
                     e((e.s = 579));
                 },
             ]);
-            (() => {
-                "use strict";
-                var r,
-                    e = {},
-                    o = {};
-                function t(r) {
-                    var a = o[r];
-                    if (void 0 !== a) return a.exports;
-                    var n = (o[r] = { exports: {} });
-                    return e[r](n, n.exports, t), n.exports;
-                }
-                (t.m = e),
-                    (r = []),
-                    (t.O = (e, o, a, n) => {
-                        if (!o) {
-                            var l = 1 / 0;
-                            for (f = 0; f < r.length; f++) {
-                                for (
-                                    var [o, a, n] = r[f], i = !0, p = 0;
-                                    p < o.length;
-                                    p++
-                                )
-                                    (!1 & n || l >= n) &&
-                                    Object.keys(t.O).every((r) => t.O[r](o[p]))
-                                        ? o.splice(p--, 1)
-                                        : ((i = !1), n < l && (l = n));
-                                if (i) {
-                                    r.splice(f--, 1);
-                                    var s = a();
-                                    void 0 !== s && (e = s);
-                                }
-                            }
-                            return e;
-                        }
-                        n = n || 0;
-                        for (var f = r.length; f > 0 && r[f - 1][2] > n; f--)
-                            r[f] = r[f - 1];
-                        r[f] = [o, a, n];
-                    }),
-                    (t.o = (r, e) =>
-                        Object.prototype.hasOwnProperty.call(r, e)),
-                    (() => {
-                        var r = { 666: 0 };
-                        t.O.j = (e) => 0 === r[e];
-                        var e = (e, o) => {
-                                var a,
-                                    n,
-                                    [l, i, p] = o,
-                                    s = 0;
-                                if (l.some((e) => 0 !== r[e])) {
-                                    for (a in i) t.o(i, a) && (t.m[a] = i[a]);
-                                    if (p) var f = p(t);
-                                }
-                                for (e && e(o); s < l.length; s++)
-                                    (n = l[s]),
-                                        t.o(r, n) && r[n] && r[n][0](),
-                                        (r[l[s]] = 0);
-                                return t.O(f);
-                            },
-                            o = (self.webpackChunkwebpack_boilerplate =
-                                self.webpackChunkwebpack_boilerplate || []);
-                        o.forEach(e.bind(null, 0)),
-                            (o.push = e.bind(null, o.push.bind(o)));
-                    })();
-            })();
         </script>
     </body>
 </html>
